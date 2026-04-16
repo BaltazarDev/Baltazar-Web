@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="Assets/fernader.com.jpeg">
     
     <style>
         body { 
@@ -22,44 +23,79 @@
         
         .glass {
             background: rgba(255, 255, 255, 0.03);
+            -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* --- PORTFOLIO SCROLL EFFECT --- */
         .portfolio-window {
-            height: 380px;
+            height: 320px;
             overflow: hidden;
             border-radius: 20px;
             position: relative;
         }
         .portfolio-img {
             width: 100%;
-            max-width: 500px;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
             transition: transform 6s ease-in-out;
         }
-        .portfolio-card:hover .portfolio-img {
-            transform: translateY(calc(-100% + 380px));
+
+        @media (hover: hover) and (pointer: fine) {
+            .portfolio-card:hover .portfolio-img {
+                transform: translateY(calc(-100% + 320px));
+            }
         }
 
-        /* Grid de portafolio: máximo 3 tarjetas por fila, luego cae a otra fila */
+        /* Mobile first: carrusel horizontal real */
         .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(320px, 1fr));
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
             gap: 1.5rem;
-            max-width: calc(3 * 450px + 2 * 40px);
+            padding: 0 1rem 1rem;
+            width: 100%;
+            max-width: 100%;
             margin: 0 auto;
         }
 
         .portfolio-card {
-            min-width: 340px;
-            max-width: 450px;
+            flex: 0 0 82vw;
+            min-width: 300px;
+            max-width: 380px;
+        }
+
+        @media (min-width: 1024px) {
+            .portfolio-window {
+                height: 380px;
+            }
+
+            .portfolio-card:hover .portfolio-img {
+                transform: translateY(calc(-100% + 380px));
+            }
+
+            .portfolio-grid {
+                display: grid;
+                overflow-x: visible;
+                scroll-snap-type: none;
+                grid-template-columns: repeat(3, minmax(320px, 1fr));
+                max-width: calc(3 * 450px + 2 * 40px);
+                padding: 0 2.5rem 3rem;
+            }
+
+            .portfolio-card {
+                min-width: 340px;
+                max-width: 450px;
+            }
         }
 
         .text-gradient {
             background: linear-gradient(to right, #22d3ee, #818cf8, #d946ef);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -99,7 +135,7 @@
                 <a href="#portafolio" class="hover:text-cyan-400 transition">Proyectos</a>
                 <a href="#faq" class="hover:text-cyan-400 transition">FAQ</a>
             </div>
-            <a href="https://wa.me/message/7PLJYGFVJCQAE1" target="_blank">
+            <a href="https://wa.me/message/7PLJYGFVJCQAE1" target="_blank" rel="noopener noreferrer">
                 <button class="bg-white text-black px-6 py-2 rounded-full font-bold text-xs hover:bg-cyan-400 transition">CONTACTO</button>
             </a>
         </div>
@@ -148,11 +184,11 @@
         <div class="absolute inset-0 bg-blue-600/5 -z-10"></div>
         <h2 class="reveal text-sm font-bold mb-16 text-center text-purple-400 uppercase tracking-[6px]">Proyectos Estelares</h2>
         
-        <div class="w-full portfolio-grid px-10 pb-12">
+        <div class="w-full portfolio-grid no-scrollbar">
             <!-- Proyecto 1 -->
             <div class="portfolio-card snap-center min-w-[340px] md:min-w-[450px] glass p-5 rounded-[32px] group">
                 <div class="portfolio-window mb-6">
-                    <img src="Assets/fernader.com.jpeg" class="portfolio-img" alt="Página web">
+                    <img src="Assets/fernader.com.jpeg" class="portfolio-img" alt="Página web" loading="eager" decoding="async">
                 </div>
                 <div class="flex justify-between items-end">
                     <div>
@@ -168,7 +204,7 @@
             <!-- Proyecto 2 -->
             <div class="portfolio-card snap-center min-w-[340px] md:min-w-[450px] glass p-5 rounded-[32px] group">
                 <div class="portfolio-window mb-6">
-                    <img src="Assets/TheMind.jpeg" class="portfolio-img" alt="App móvil">
+                    <img src="Assets/TheMind.jpeg" class="portfolio-img" alt="App móvil" loading="lazy" decoding="async">
                 </div>
                 <div class="flex justify-between items-end">
                     <div>
@@ -183,14 +219,14 @@
 
             <div class="portfolio-card snap-center min-w-[340px] md:min-w-[450px] glass p-5 rounded-[32px] group">
                 <div class="portfolio-window mb-6">
-                    <img src="Assets/Refill-tienda.jpeg" class="portfolio-img" alt="App móvil">
+                    <img src="Assets/Refill-tienda.jpeg" class="portfolio-img" alt="App móvil" loading="lazy" decoding="async">
                 </div>
                 <div class="flex justify-between items-end">
                     <div>
                         <span class="text-[10px] text-purple-400 font-bold tracking-widest">Laravel / Stripe</span>
                         <h4 class="text-2xl font-bold italic mt-1">RE:FILL</h4>
                     </div>
-                    <a href="https://re-fill.mx" target="_blank">
+                    <a href="https://re-fill.mx" target="_blank" rel="noopener noreferrer">
                         <div class="text-xs opacity-50 font-bold uppercase tracking-widest group-hover:text-purple-400 transition">Ver Caso ↗</div>
                     </a>
                 </div>
@@ -252,7 +288,7 @@
     <footer id="contacto" class="max-w-7xl mx-auto px-6 pb-20">
         <div class="glass p-16 md:p-32 rounded-[60px] text-center relative overflow-hidden">
             <h2 class="reveal text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter">¿Listos para <br> <span class="text-cyan-400 italic text-gradient">evolucionar?</span></h2>
-            <a href="https://wa.me/message/7PLJYGFVJCQAE1" target="_blank">
+            <a href="https://wa.me/message/7PLJYGFVJCQAE1" target="_blank" rel="noopener noreferrer">
                 <button class="reveal bg-white text-black px-12 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition shadow-2xl">Empezar ahora</button>
             </a>
             <p class="mt-16 text-[10px] text-gray-600 uppercase tracking-[8px]">Baltazar Dev • 2026</p>
@@ -308,17 +344,25 @@
             ease: "expo.out"
         });
 
-        // Entrada del portafolio
-        gsap.from(".portfolio-card", {
-            scrollTrigger: {
-                trigger: "#portafolio",
-                start: "top 75%"
-            },
-            scale: 0.8,
-            opacity: 0,
-            duration: 1.5,
-            stagger: 0.2,
-            ease: "elastic.out(1, 0.75)"
+        // Entrada del portafolio (sin bloqueo en móvil)
+        const mm = gsap.matchMedia();
+
+        mm.add("(max-width: 767px)", () => {
+            gsap.set(".portfolio-card", { clearProps: "all" });
+        });
+
+        mm.add("(min-width: 768px)", () => {
+            gsap.from(".portfolio-card", {
+                scrollTrigger: {
+                    trigger: "#portafolio",
+                    start: "top 90%"
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.12,
+                ease: "power3.out"
+            });
         });
 
     </script>
